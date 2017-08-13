@@ -181,7 +181,6 @@ bool check_lane(int target_lane, int steps, double car_s,vector<vector<double> >
 			check_car_s += ((double)steps*0.02*check_speed);
 			//in front in range or behind in range
 			if((check_car_s > car_s) && ((check_car_s-car_s) < distance_ahead) ){
-				//ref_vel = 29.{
 				clear_front = false;
 			}
 			if((check_car_s<= car_s) && ((car_s - check_car_s) < 5 )){
@@ -298,14 +297,13 @@ int main() {
 					double check_car_s = sensor_fusion[i][5];
 					check_car_s += ((double)prev_size*0.02*check_speed);
 					if((check_car_s > car_s) && ((check_car_s-car_s) < 30)){
-						//ref_vel = 29.{
 						too_close = true;
 					}
 				}
 
 				
 			}
-
+			//behaviour planning
 			if(too_close){
 				ref_vel -= .224;
 				if(!changing_lanes){

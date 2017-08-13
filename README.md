@@ -3,7 +3,7 @@ Self-Driving Car Engineer Nanodegree Program
   
 ### Model Documentation
 - I followed the project wallthrough to setup the basic functionality, so I am using the spline library for trajectory generation and I use the previous path points not used up by the simulator to start off each new trajectory and then waypoints 30, 60 and 90 meters ahead of the car in the target lane. Each trajectory has 50 points. 
-- For behaviour planning I follow the current lane until a car is within 30 meters of my car, to check if there are any free lanes I wrote a check_lane function to check if that lane is free behind and infront of the car using the sensor fusion data. If in the middle lane I check if either the left or right lane are free for 30 meters ahead, if they both are I check if either are free 60 meters ahead to break a tie.
+- For behaviour planning I follow the current lane until a car is within 30 meters of my car, to check if there are any free lanes I wrote a check_lane function to check if that lane is free behind and infront of the car using the sensor fusion data. What lane the car is in determines what lane it will try to change into. If in the middle lane I check if either the left or right lane are free for 30 meters ahead, if they both are I check if either are free 60 meters ahead to break a tie. If in the far left lane it only will try to change into the middle and same if in the far right lane.
 
 
 ### Simulator.
