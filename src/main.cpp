@@ -233,9 +233,8 @@ int main() {
   int lane = 1;
   double ref_vel = 0.0;
   bool changing_lanes = false;
-  double target_vel = 49.5;
 
-  h.onMessage([&ref_vel,&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy, &lane, &changing_lanes, &target_vel](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+  h.onMessage([&ref_vel,&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy, &lane, &changing_lanes](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
@@ -301,11 +300,6 @@ int main() {
 					if((check_car_s > car_s) && ((check_car_s-car_s) < 30)){
 						//ref_vel = 29.{
 						too_close = true;
-						if(check_speed*2.23694 <= 49.5){
-							target_vel = check_speed*2.23694;
-						}
-					}else{
-						target_vel = 49.5;
 					}
 				}
 
@@ -328,6 +322,10 @@ int main() {
 								lane = 2;
 								changing_lanes = true;
 							}
+							else{
+								lane = 0;
+								changing_lanes = true;
+							}
 						}else if(lane_0_check){
 							lane = 0;
 							changing_lanes = true;
@@ -341,8 +339,8 @@ int main() {
 						changing_lanes = true;
 					}
 				}
-			}else if(ref_vel < target_vel){
-				double value = std::min(ref_vel+0.89,49.5);
+			}else if(ref_vel < 49.5){
+				double value = std::min(ref_vel+0.69,49.5);
 				ref_vel = value;
 			}
           	vector<double> next_x_vals;
@@ -407,16 +405,6 @@ int main() {
 				
 			}
 
-			/*double dist_inc = 0.3;
-			for(int i = 0; i < 50; i++)
-			{
-				double next_s = car_s + (i+1) * dist_inc;
-				double next_d = car_d;
-				vector<double> next_xy = getXY(next_s,next_d,map_waypoints_s,
-				                               map_waypoints_x,map_waypoints_y);
-				next_x_vals.push_back(next_xy[0]);
-				next_y_vals.push_back(next_xy[1]);
-			}*/
 			tk::spline s;
 			s.set_points(ptsx,ptsy);
 
